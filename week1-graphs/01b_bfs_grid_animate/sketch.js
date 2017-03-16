@@ -22,13 +22,16 @@ function setup() {
     }
   }
 
-  for (var j = 0; j < rows - 1; j++) {
+  for (var j = 0; j < rows; j++) {
     for (var i = 0; i < cols; i++) {
       var n = grid[i][j];
-      if (random(1) < 0.8) {
+      //if (random(1) < 0.8) {
+      if(j < rows - 1) {
         n.connect(grid[i][j + 1]);
       }
-      if (random(1) < 0.8 && i < cols - 1) {
+      //}
+      //if (random(1) < 0.8 &&
+      if (i < cols - 1) {
         n.connect(grid[i + 1][j]);
       }
     }
@@ -37,8 +40,8 @@ function setup() {
 
   graph.setStart(grid[0][0]);
 
-  var endx = floor(random(cols));
-  var endy = floor(random(rows));
+  var endx = cols - 1;//floor(random(cols));
+  var endy = rows - 1;//floor(random(rows));
   graph.setEnd(grid[endx][endy]);
   queue.push(graph.start);
 }
@@ -51,7 +54,7 @@ function draw() {
   graph.show();
 
   if (queue.length > 0) {
-    var node = queue.pop();
+    var node = queue.shift();
     node.highlight();
     if (!node.searched) {
       if (node == graph.end) {
